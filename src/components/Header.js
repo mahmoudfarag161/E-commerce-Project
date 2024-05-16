@@ -23,6 +23,7 @@ const Header = () => {
 
   // };
   function handleLogout() {
+    localStorage.removeItem("");
     context.setToken("");
     toast.success("logout successfully");
     dispatch(setUserDetails(null));

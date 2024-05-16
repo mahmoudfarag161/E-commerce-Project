@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import Context from "../context";
+import { FadeLoader } from "react-spinners";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +14,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const { fetchUserDetails, fetchUserAddToCart, setToken } =
     useContext(Context);
@@ -30,6 +33,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const dataResponse = await fetch(SummaryApi.signIn.url, {
       method: SummaryApi.signIn.method,
@@ -40,17 +44,16 @@ const Login = () => {
     });
 
     const dataApi = await dataResponse.json();
+    setIsLoading(false);
 
     if (dataApi.token) {
+      localStorage.setItem("token", dataApi.token);
+
       toast.success("Login successful");
       fetchUserDetails(dataApi.token);
       fetchUserAddToCart();
       setToken(dataApi.token);
       navigate("/");
-    }
-
-    if (dataApi.error) {
-      toast.error(dataApi.message);
     }
   };
 
@@ -103,9 +106,18 @@ const Login = () => {
               </Link>
             </div>
 
-            <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6">
-              Login
-            </button>
+            {isLoading ? (
+              <div>
+                <FadeLoader
+                  color="#d63838"
+                  className="px-6 py-2 w-full max-w-[150px]   transition-all mx-auto block mt-6"
+                />
+              </div>
+            ) : (
+              <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6">
+                Login
+              </button>
+            )}
           </form>
 
           <p className="my-5">

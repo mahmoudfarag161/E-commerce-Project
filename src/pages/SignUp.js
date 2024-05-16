@@ -5,6 +5,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
+import { FadeLoader } from "react-spinners";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,8 @@ const SignUp = () => {
     name: "",
     passwordConfirm: "",
   });
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -30,6 +33,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (data.password === data.passwordConfirm) {
       const dataResponse = await fetch(SummaryApi.signUP.url, {
@@ -41,8 +45,7 @@ const SignUp = () => {
       });
 
       const dataApi = await dataResponse.json();
-      console.log(dataApi);
-
+      setLoading(false);
       if (dataApi.token) {
         toast.success("SignUp Successful");
         navigate("/login");
@@ -141,9 +144,18 @@ const SignUp = () => {
               </div>
             </div>
 
-            <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6">
-              Sign Up
-            </button>
+            {loading ? (
+              <div>
+                <FadeLoader
+                  color="#d63838"
+                  className="px-6 py-2 w-full max-w-[150px]   transition-all mx-auto block mt-6"
+                />
+              </div>
+            ) : (
+              <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6">
+                Sign Up
+              </button>
+            )}
           </form>
 
           <p className="my-5">

@@ -1,5 +1,3 @@
-const backendDomin = "http://localhost:8080";
-
 const SummaryApi = {
   signUP: {
     url: "https://reca.azurewebsites.net/api/v1/auth/signup",
@@ -79,10 +77,7 @@ const SummaryApi = {
     url: "https://reca.azurewebsites.net/api/v1/cart",
     method: "post",
   },
-  addToCartProductCount: {
-    url: `${backendDomin}/api/countAddToCartProduct`,
-    method: "get",
-  },
+
   addToCartProductView: {
     url: "https://reca.azurewebsites.net/api/v1/cart",
     method: "get",
@@ -104,10 +99,7 @@ const SummaryApi = {
     url: "https://reca.azurewebsites.net/api/v1/products",
     method: "get",
   },
-  filterProduct: {
-    url: `${backendDomin}/api/filter-product`,
-    method: "post",
-  },
+
   createCheckoutSession: {
     url: "https://reca.azurewebsites.net/api/v1/orders/checkout-session",
     method: "post",

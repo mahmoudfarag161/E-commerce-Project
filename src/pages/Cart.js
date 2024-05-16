@@ -3,7 +3,7 @@ import SummaryApi from "../common";
 import Context from "../context";
 import displayINRCurrency from "../helpers/displayCurrency";
 import { MdDelete } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -24,7 +24,7 @@ const Cart = () => {
     });
 
     const responseData = await response.json();
-    
+
     setLoading(false);
     console.log(responseData);
     if (responseData.data) {
@@ -119,8 +119,8 @@ const Cart = () => {
     }
   }
   const handlePayment = () => {
-      navigate(`/payment?cart=${cartId}`)
-  }
+    navigate(`/payment?cart=${cartId}`);
+  };
   const totalQty = data.reduce(
     (previousValue, currentValue) => previousValue + currentValue.quantity,
     0
@@ -229,15 +229,14 @@ const Cart = () => {
                 <p>{displayINRCurrency(totalPrice)}</p>
               </div>
 
-              {
-                  data.length > 0 &&
-                    <button onClick={() => handlePayment()} className="bg-blue-600 p-2 text-white w-full mt-2">
-                      Payment
-                  </button>
-                  
-                    
-                  
-              }
+              {data.length > 0 && (
+                <button
+                  onClick={() => handlePayment()}
+                  className="bg-blue-600 p-2 text-white w-full mt-2"
+                >
+                  Payment
+                </button>
+              )}
               <button
                 onClick={handleClearCart}
                 className=" bg-blue-600 p-2 text-white w-full mt-2"
